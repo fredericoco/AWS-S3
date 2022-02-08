@@ -16,3 +16,60 @@ standard: You can access data anytime
 Glacier: infrequent data access(pay less)
 research rest in own time
 
+### Creating an S3 bucket
+Don't use underscore or caps when creating the bucket
+
+
+```
+#!/usr/bin/env python3
+
+import boto3
+
+filename = 'test.txt'
+bucket_name = 'eng103a-frederick-devops'
+location = {'LocationContraint':'eu-west-1'}
+
+s3 = boto3.resource('s3'
+s3.create_bucket(Bucket=bucket_name, CreateBucketConfiguration=location)
+s3_client = boo3.client('s3')
+s3_client.upload_file(filename,bucket_name,filename)
+
+s3 = boto3.client('s3')
+s3.download_file('eng103a-frederick-devops','test.txt','test2.txt')
+
+s3 = boto3.resource('s3')
+s3.object('eng103a-frederick-devops','test.txt').delete()
+
+s3 = boto3.resource('s3')
+bucket = s3.Bucket('eng103a-frederick-devops')
+bucket.delete()
+
+```
+This piece of code does the CRUD parts individually and is the piece of code I made. It's a work in progress because I need to include a while loop if I want to do it in one .py file. I took inspiration from a classmate's code, I spoke to him about the code and I believe I understand it.
+```
+import boto3
+location = {'LocationConstraint': "eu-west-1"}
+s3 = boto3.resource('s3')
+bucket_name = 'eng103a-frederick-devops'
+
+while True:
+    action = input("what would you like you to do? c for createbucket, db for delete bucket, d for delete file, u for upload, dl for download, e for exit\n").lower()
+
+    if action == "db":
+        s3.Bucket(bucket_name).delete()
+    elif action == "cb":
+        s3.create_bucket(Bucket=bucket_name, CreateBucketConfiguration=location)
+    elif action == "d":
+        filename = input("what is the filename?\n")
+        s3.Object(bucket_name, filename).delete()
+    elif action == "u":
+        filename = input("what is the name of the file you're uploading?\n")
+        targetfilename = input("what is the destination file name?\n")
+        s3.Bucket(bucket_name).upload_file(filename, targetfilename)
+    elif action == "dl":
+        filename = input("what is the name of the file you're downloading?\n")
+        targetfilename = input("what is the destination file name?\n")
+        s3.Bucket(bucket_name).download_file(filename, targetfilename)
+    elif action == "e":
+        break
+```
