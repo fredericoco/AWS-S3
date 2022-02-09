@@ -136,3 +136,4 @@ sudo apt update -y && sudo apt upgrade -y
 sudo su ubuntu&& echo "export DB_HOST='mongodb://54.155.98.140:27017/posts'" >> /home/ubuntu/.bashrc && source /home/ubuntu/.bashrc && cd /home/ubuntu/app/app && screen -d -m npm start 
 ```
 - App AMI had to be checked for whether the nginx was working and whether the default file in /etc/nginx/sites-available was up to date for the reverse proxy. It should have the updated location file.
+- Make sure that when you make a new version of the template and want to look at it, you select it. When you want to lauch make sure you are using the lastest version of the updated template, otherwise you'll go in circles.
