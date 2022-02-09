@@ -89,3 +89,15 @@ while True:
     elif action == "e":
         break
 ```
+# AWS Autoscaling load balancing
+High availabilty- Able to replicate instances so if an instance goes down, then it won't effect the app
+High scalability- 
+Deployed in multi AZs
+
+Autoscaling automatically adjusts the amount of computational resourcs based on server load.
+Load Balancing distributes traffic between EC2 so that no one instance gets overwhelmed.
+An ALB application gets information from the internet gateway and distributes the load according to the instances. If one instance goes down the ALB will distribute the load to a new instance and boot up a new instance.
+
+In order to get this to work, we need to create an autoscaling policy (min = 2, desired = 2, max = 3). An example of this in real life is christmas shopping. More demand in December but less in January.
+
+The load balancer listening on port 80 or required ports. Target group - 
