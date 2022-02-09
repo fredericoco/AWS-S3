@@ -89,7 +89,7 @@ while True:
     elif action == "e":
         break
 ```
-<<<<<<< HEAD
+
 # AWS Autoscaling load balancing
 High availabilty- Able to replicate instances so if an instance goes down, then it won't effect the app
 High scalability- 
@@ -98,10 +98,41 @@ Deployed in multi AZs
 Autoscaling automatically adjusts the amount of computational resourcs based on server load.
 Load Balancing distributes traffic between EC2 so that no one instance gets overwhelmed.
 An ALB application gets information from the internet gateway and distributes the load according to the instances. If one instance goes down the ALB will distribute the load to a new instance and boot up a new instance.
-
 In order to get this to work, we need to create an autoscaling policy (min = 2, desired = 2, max = 3). An example of this in real life is christmas shopping. More demand in December but less in January.
 
 The load balancer listening on port 80 or required ports. Target group - 
-=======
+
 ![image](https://user-images.githubusercontent.com/39882040/153221617-4d439bbb-8eff-44fd-ada2-6868ab274cca.png)
->>>>>>> 219d5617c206a4f6e33e8594b072ef881e4103cf
+
+In order to setup an autoscaling group, we need to create a launch template. name it `eng103a_fred_asg`, security group (eng103a_fred_asg) make sure it is the same as the app.
+Summary:
+- Canonical,Ubuntu 18.04 LTS
+- t2.micro
+
+enable resource-based IPV4 DNS requests, the user data info has space for code.
+```
+#!/bin/bash
+sudo apt-get update -y
+sudo apt-get upgrade -y
+sudo apt-get install nginx -y
+sudo systemctl restart nginx
+sudo systemctl enable nginx
+```
+
+Now go to create auto scaling group and choose the template you just created. Go for the default VPC, and choose three availibility zones (a,b,c). Attach a new load balancer, choose application load balancer, choose a name. change it to internet-facing load balance scheme. Create a new target group and give it aan intuative name. Enable the ELB health check. 
+
+Set the group size to 2,2,3 (desired,minimum,maximum). Set up the target tracking scaling policy to what we did yesterday. This should launch the auto scaling group. This should create 2 instances.
+
+If you take down one of these instances created, it will lauch another. Copy the IP and you will go to the nginx.
+
+## Task: set an autoscaling command to launch 2-3 instances that can have app on them, and go to posts.
+
+Issues today were numerous:
+- my original app data was corrupted so I had to install a colleagues app data and update my original AMI for app.
+- I had to update the template a few times, to include the appropriate user data. The code bellow is what should be in user data. Note the IP will change every time you launch a new instance of DB.
+```
+#!/bin/bash
+sudo apt update -y && sudo apt upgrade -y
+sudo su ubuntu&& echo "export DB_HOST='mongodb://54.155.98.140:27017/posts'" >> /home/ubuntu/.bashrc && source /home/ubuntu/.bashrc && cd /home/ubuntu/app/app && screen -d -m npm start 
+```
+- App AMI had to be checked for whether the nginx was working and whether the default file in /etc/nginx/sites-available was up to date for the reverse proxy. It should have the updated location file.
