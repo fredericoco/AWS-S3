@@ -89,6 +89,7 @@ while True:
     elif action == "e":
         break
 ```
+<<<<<<< HEAD
 # AWS Autoscaling load balancing
 High availabilty- Able to replicate instances so if an instance goes down, then it won't effect the app
 High scalability- 
@@ -101,3 +102,6 @@ An ALB application gets information from the internet gateway and distributes th
 In order to get this to work, we need to create an autoscaling policy (min = 2, desired = 2, max = 3). An example of this in real life is christmas shopping. More demand in December but less in January.
 
 The load balancer listening on port 80 or required ports. Target group - 
+=======
+![image](https://user-images.githubusercontent.com/39882040/153221617-4d439bbb-8eff-44fd-ada2-6868ab274cca.png)
+>>>>>>> 219d5617c206a4f6e33e8594b072ef881e4103cf
