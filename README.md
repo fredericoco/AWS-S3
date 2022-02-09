@@ -12,13 +12,29 @@ When you get to the right part type `AWS configure` into your console and input 
 
 S3 storage classes:
 
-standard: You can access data anytime
-Glacier: infrequent data access(pay less)
-research rest in own time
+- standard: You can access data anytime, general purpose.
+- Glacier: infrequent data access(pay less), longterm retention of data
+- Infrequent access: Made primarily for disaster recovery files because of the low cost and high durability
+- see https://aws.amazon.com/s3/storage-classes/ for more examples
 
 ### Creating an S3 bucket
-Don't use underscore or caps when creating the bucket
+Don't use underscore or caps when creating the bucket. In order to create a on AWS follow these instructions:
+- To make sure you're in the s3 type the command `aws s3 ls`
+- enter this command into git bash `aws s3 mb s3://eng103-name-devops`. If successful it should return make bucket and the name that has been given to it.
+- `sudo nano test.txt` to create a file
+-  `aws s3 cp test.txt s3://eng103a-name-devops` to upload the file to bucket
 
+This will create and upload an onject. Make sure to go to permisissions and allow public access.
+
+- `sudo rm test.txt` to delete the file locally
+- `aws s3 cp s3://eng103a-name-devops/test.txt ~` to download a file called test.txt over from the s3
+- `aws s3 rb s3://eng103a-name-devops` to delete a bucket if it is empty. If it has anything in it, it will fail
+- `aws s3 rm s3://eng103a-name-devops` to delete files in a bucket
+- `aws s3 rm s3://eng103a-name-devops --recursive` delete all content files. WARNING:don't use if you have a lot of files. It will delete everything.
+
+These are all the CRUD methods.
+# Automating the CRUD methods using python scripting
+In order to automate the CRUD methods we need to use python scripting. This means running python scripts in a terminal. We need to install python 3 for the terminal. This can be done quite easily, using `sudo install python3`. 
 
 ```
 #!/usr/bin/env python3
